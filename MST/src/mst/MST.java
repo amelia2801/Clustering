@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package mst;
+import java.text.ParseException;
 import mst.DbConn;
 
 /**
@@ -14,8 +15,8 @@ public class MST {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         // TODO code application logic here
-        new DbConn();
+        DbOperation db = new DbOperation();
     }
 }

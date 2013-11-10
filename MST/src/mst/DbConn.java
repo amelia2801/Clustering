@@ -24,15 +24,16 @@ public class DbConn {
             return connection;
         else {
             try {
-                    Properties prop = new Properties();
-                    InputStream inputStream = DbConn.class.getClassLoader().getResourceAsStream("/db.properties");
-                    prop.load(inputStream);
-                    String driver = prop.getProperty("driver");
-                    String url = prop.getProperty("url");
-                    String user = prop.getProperty("user");
-                    String password = prop.getProperty("password");
-                    Class.forName(driver);
+                Properties prop = new Properties();
+                InputStream inputStream = DbConn.class.getClassLoader().getResourceAsStream("db.properties");
+                prop.load(inputStream);
+                String driver = prop.getProperty("driver");
+                String url = prop.getProperty("url");
+                String user = prop.getProperty("user");
+                String password = prop.getProperty("password");
+                Class.forName(driver);
                 connection = DriverManager.getConnection(url, user, password);
+                System.out.println("connected to database");
                 } catch (ClassNotFoundException e) {
 	            e.printStackTrace();
 	        } catch (SQLException e) {
