@@ -19,6 +19,6 @@ public class MST {
     public static void main(String[] args) throws ParseException {
         // TODO code application logic here
         DbOperation db = new DbOperation();
-        db.generateTestData(5);
+        db.generateTestData(10);
     }
 }
