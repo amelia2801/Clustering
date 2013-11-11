@@ -87,4 +87,42 @@ public class DbOperation {
             e.printStackTrace();
         }
     }
+    
+    public void generateTestData(int limit){
+        try{
+            Statement s = connection.createStatement();
+            String query ="SELECT \"id\", \"percent_delta_hps\" FROM lelang ORDER BY \"id\" LIMIT "+limit+";";
+            ResultSet rs = s.executeQuery(query);
+            ArrayList<Double> percentage = new ArrayList<Double>();
+            while(rs.next()){
+                percentage.add(rs.getDouble("percent_delta_hps"));
+            }
+            
+            System.out.println("data yang akan digunakan: ");
+            for(int i=0; i<percentage.size(); i++){
+                System.out.println(percentage.get(i));
+            }
+            
+            System.out.println("\npasangan yang terbentuk: ");
+            System.out.println(limit);
+            System.out.println((limit*(limit-1))/2);
+            int j=0;
+            double delta = 0;
+            for(int i=0; i<percentage.size(); i++){
+                j = i;
+                while(j<percentage.size()){
+                    if(i!=j){
+                        System.out.print(i + " " +j);
+                        delta = percentage.get(i) - percentage.get(j);
+                        System.out.println(" "+delta);
+                        j++;
+                    }else{
+                        j++;
+                    }
+                }   
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

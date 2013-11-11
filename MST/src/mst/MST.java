@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 package mst;
+import com.sun.org.apache.bcel.internal.generic.GETFIELD;
 import java.text.ParseException;
 import mst.DbConn;
 
@@ -18,5 +19,6 @@ public class MST {
     public static void main(String[] args) throws ParseException {
         // TODO code application logic here
         DbOperation db = new DbOperation();
+        db.generateTestData(5);
     }
 }
