@@ -19,6 +19,7 @@ public class MST {
     public static void main(String[] args) throws ParseException {
         // TODO code application logic here
         DbOperation db = new DbOperation();
-        db.generateTestData(10);
+        //db.generateTestData(10);
+        //db.generateTestDataFromFile("F:\\Amelia\\Documents\\Teknik Informatika 2010\\Semester 7\\IF4071 Machine Learning\\Clustering\\Clustering\\MST\\src\\vertices_pengawasan_2.txt");
     }
 }

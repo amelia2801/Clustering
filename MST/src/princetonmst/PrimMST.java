@@ -88,6 +88,7 @@ public class PrimMST {
     private IndexMinPQ<Double> pq;
     ArrayList<Integer> mapLeft = new ArrayList<>(); // manipulating indexPQ.java
     ArrayList<Integer> mapRight = new ArrayList<>(); // manipulating indexPQ.java
+    ArrayList<EdgeWeightedGraph> clusters = new ArrayList<>(); // penyimpanan pohon cluster yang terbentuk
     /**
      * Compute a minimum spanning tree (or forest) of an edge-weighted graph.
      * @param G the edge-weighted graph
@@ -344,7 +345,26 @@ public class PrimMST {
         }
         result[0] = cluster1;
         result[1] = cluster2;
+        clusters.add(result[0]);
+        clusters.add(result[1]);
         return result;
+    }
+    
+    public PrimMST convertGraphtoTree(EdgeWeightedGraph eg){
+        PrimMST p = new PrimMST(eg);
+        return p;
+    }
+    
+    public void MakeClusters(Edge cuttingEdge, ArrayList<EdgeWeightedGraph> clusters){
+        for(EdgeWeightedGraph g : clusters){
+            for(Edge e : g.edges()){
+                if(e.equals(cuttingEdge)){                    
+                    cutMSTtree(convertGraphtoTree(g), cuttingEdge);
+                    clusters.remove(g);
+                    break;
+                }
+            }
+        }        
     }
     
     public int countVertex (ArrayList<Edge> edgeContainer) {
@@ -433,7 +453,9 @@ public class PrimMST {
     public static void main(String[] args) {
         EdgeWeightedGraph cluster1;
         EdgeWeightedGraph cluster2;
-        In in = new In("/training.txt");
+        EdgeWeightedGraph cluster3;
+        EdgeWeightedGraph cluster4;
+        In in = new In("/tinyEWG.txt");
         EdgeWeightedGraph G = new EdgeWeightedGraph(in);
         PrimMST mst = new PrimMST(G);
         System.out.println("Data :");
@@ -442,10 +464,17 @@ public class PrimMST {
         }
         
         StdOut.printf("%.5f\n", mst.weight());
+        System.out.println("urutkan: \n"+mst.sortEdges(mst).toString());
         Edge E0 = mst.sortEdges(mst).get(0);
-        Edge E1 = mst.sortEdges(mst).get(1);
+        Edge E1 = mst.sortEdges(mst).get(6);
+        Edge E2 = mst.sortEdges(mst).get(2);
+        ArrayList<Edge> cuttingEdges = new ArrayList<>();
+        cuttingEdges.add(E0);
+        cuttingEdges.add(E1);
+        cuttingEdges.add(E2);
         System.out.println(E0.toString());
         System.out.println(E1.toString());
+        System.out.println(E2.toString());
         System.out.println("---");
         // create a new cluster
         System.out.println("hasil clustering");
@@ -461,5 +490,33 @@ public class PrimMST {
         System.out.println(mst.decodeEdges(cluster2, mst.mapRight));
         PrimMST weight2 = new PrimMST(cluster2);
         System.out.println("rata-rata : " + weight2.weight() / cluster2.E());
+        
+        System.out.println("\nhasil clustering -------------------------------");
+        cluster3 = mst.cutMSTtree(mst.convertGraphtoTree(cluster1), E1)[0];
+        System.out.println(mst.decodeEdges(cluster3, mst.mapRight));
+        PrimMST weight3 = new PrimMST(cluster3);
+        System.out.println("rata-rata : " + weight3.weight() / cluster3.E());
+        
+        System.out.println("\nhasil clustering -------------------------------");
+        cluster4 = mst.cutMSTtree(mst.convertGraphtoTree(cluster1), E1)[1];
+        System.out.println(mst.decodeEdges(cluster4, mst.mapRight));
+        PrimMST weight4 = new PrimMST(cluster4);
+        System.out.println("rata-rata : " + weight4.weight() / cluster3.E());
+                
+//        mst.cutMSTtree(mst, cuttingEdges.get(0));
+//        System.out.println("print clusters");        
+//        for(int i=0; i<mst.clusters.size(); i++){
+//            System.out.println(mst.clusters.get(i).toString());            
+//        }
+//        System.out.println("------------------");
+//        for(int i=1; i<cuttingEdges.size(); i++){
+//            System.out.println("cuttingedge = "+cuttingEdges.get(i));
+//            mst.MakeClusters(cuttingEdges.get(i), mst.clusters);
+//        }
+//        
+//        for(int i=0; i<mst.clusters.size(); i++){
+//            System.out.println(cuttingEdges.get(i));
+//            System.out.println(mst.clusters.get(i).toString());            
+//        }
     }
 }

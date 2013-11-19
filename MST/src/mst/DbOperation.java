@@ -3,6 +3,9 @@
  * and open the template in the editor.
  */
 package mst;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -122,6 +125,42 @@ public class DbOperation {
                 }   
             }
         }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void generateTestDataFromFile(String filelocation){
+        try{
+            String currentLine;
+            BufferedReader br = new BufferedReader(new FileReader(filelocation));
+            ArrayList<Double> percentage = new ArrayList<Double>();
+            while((currentLine = br.readLine()) != null){         
+                percentage.add(Double.parseDouble(currentLine));
+            }
+            for(int i=0; i<percentage.size(); i++){
+                System.out.println(percentage.get(i));
+            }
+            
+            int vertices = percentage.size();
+            System.out.println("\npasangan yang terbentuk: ");
+            System.out.println(vertices);
+            System.out.println((vertices*(vertices-1))/2);
+            int j=0;
+            double delta = 0;
+            for(int i=0; i<percentage.size(); i++){
+                j = i;
+                while(j<percentage.size()){
+                    if(i!=j){
+                        System.out.print(i + " " +j);
+                        delta = percentage.get(i) - percentage.get(j);
+                        System.out.println(" "+delta);
+                        j++;
+                    }else{
+                        j++;
+                    }
+                }   
+            }
+        }catch(IOException e){
             e.printStackTrace();
         }
     }
