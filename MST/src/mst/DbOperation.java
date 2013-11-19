@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
+import model.Examples;
 import mst.DbConn;
 
 /**
@@ -162,6 +163,33 @@ public class DbOperation {
             }
         }catch(IOException e){
             e.printStackTrace();
+        }
+    }
+    
+    public void CountWeightPlayTennis(Examples ex){
+        int vertices = ex.getData().size();
+        System.out.println("\npasangan yang terbentuk: ");
+        System.out.println(vertices);
+        System.out.println((vertices*(vertices-1))/2);
+        int j=0;
+        int delta = 0;
+        for(int i=0; i<ex.getData().size(); i++){
+            j = i;
+            while(j<ex.getData().size()){
+                if(i!=j){
+                    System.out.print(i + " " +j);
+                    for(int k=0; k<ex.getData().get(k).size(); k++){
+                        if(!ex.getData().get(i).get(k).equals(ex.getData().get(j).get(k))){
+                            delta++;
+                        }
+                    }
+                    System.out.println(" "+delta);
+                    j++;
+                    delta = 0;
+                }else{
+                    j++;
+                }
+            }   
         }
     }
 }
